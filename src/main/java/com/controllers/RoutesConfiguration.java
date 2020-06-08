@@ -10,11 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.server.RouterFunction;
 
+import lombok.extern.slf4j.Slf4j;
+
 import static org.springframework.web.reactive.function.server.RouterFunctions.*;
 import static org.springframework.web.reactive.function.server.ServerResponse.*;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RequestPredicates.method;
 
+@Slf4j
 @Configuration
 public class RoutesConfiguration {
     
@@ -27,6 +30,7 @@ public class RoutesConfiguration {
             
             .andRoute(method(HttpMethod.POST), 
             req -> {
+                log.info("A person was added to the repository, their name was: " + req.bodyToMono(Person.class).block().getName());
                 personRepository.insert(req.bodyToMono(Person.class)).subscribe();
                 return ok().build();
             }

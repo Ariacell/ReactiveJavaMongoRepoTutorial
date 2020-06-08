@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 @RestController
+@Slf4j
 @RequestMapping("/person")
 public class PersonController {
     
@@ -19,6 +21,7 @@ public class PersonController {
 
     @GetMapping
     public Flux<Person> index() {
+        log.info("The current person's are: " + personRepository.findAll());
         return personRepository.findAll();
     }
 
